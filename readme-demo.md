@@ -1,6 +1,6 @@
 
 # Demo Deployment (Automation Showcase)
-You can access the demo website on this [link](https://d2ra6veurbz5fd.cloudfront.net/)
+You can access the demo website on this [link](https://dqy2wdxo4r3di.cloudfront.net/)
 
 > **Purpose:** This document explains the *minimal demo branch* used to showcase CI/CD automation and Terraform workflows, while intentionally keeping **cost, complexity, and external dependencies** low.
 
