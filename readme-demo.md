@@ -1,4 +1,3 @@
-
 # Demo Deployment (Automation Showcase)
 You can access the demo website on this [link](https://dqy2wdxo4r3di.cloudfront.net/)
 
@@ -58,10 +57,12 @@ Two GitHub Actions workflows are defined in this branch:
 - Provisions the S3 + CloudFront stack using Terraform
 - Uploads static site content
 - Outputs the CloudFront distribution URL
+- You can access the deploy demo workflow (here)[https://github.com/poly4concept/fivexl-test/blob/demo-cloudfront-only/.github/workflows/deploy-demo.yml]
 
 ### Destroy demo infrastructure
 - Destroys all Terraform-managed resources
 - Ensures no ongoing AWS cost after review
+- You can access the deploy demo workflow (here)[https://github.com/poly4concept/fivexl-test/blob/demo-cloudfront-only/.github/workflows/destroy-demo.yml]
 
 
 ---
