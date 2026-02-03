@@ -30,7 +30,7 @@ module "demo_static_site" {
 
   # For the demo I deliberately do NOT use Route53, custom domains, or ACM.
   # I pass a simple label as "domain_name" that is only used for naming/tagging.
-  domain_name         = "demo-cloudfront-only"
+  domain_name         = "poly4-demo-cloudfront-only"
   hosted_zone_id      = null
   acm_certificate_arn = null
   tags                = local.common_tags
