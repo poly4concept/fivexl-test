@@ -34,7 +34,7 @@ jobs:
         run: terraform init
 
       - name: Terraform apply
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve -input=false
 
       - name: Capture CloudFront URL
         id: outputs
