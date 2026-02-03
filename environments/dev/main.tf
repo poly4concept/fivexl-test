@@ -11,12 +11,6 @@ terraform {
 
 provider "aws" {
   region = var.aws_region
-
-  dynamic "assume_role" {
-    for_each = var.aws_profile == null ? [] : []
-    content {}
-  }
-
   profile = var.aws_profile
 }
 
@@ -37,9 +31,10 @@ locals {
 module "static_site" {
   source = "../../modules/s3_cloudfront_site"
 
-  domain_name   = local.static_site_domain
-  hosted_zone_id = var.hosted_zone_id
-  tags          = local.common_tags
+  domain_name         = local.static_site_domain
+  hosted_zone_id      = var.hosted_zone_id
+  acm_certificate_arn = var.static_site_acm_certificate_arn
+  tags                = local.common_tags
 }
 
 module "ecs_site" {

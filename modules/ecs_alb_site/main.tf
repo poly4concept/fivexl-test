@@ -83,23 +83,25 @@ resource "aws_security_group" "alb" {
   description = "Allow HTTP to ALB"
   vpc_id      = aws_vpc.this.id
 
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
   tags = merge(var.tags, {
     "Name" = "${local.name_prefix}-alb-sg"
   })
+}
+
+resource "aws_vpc_security_group_ingress_rule" "alb_http" {
+  security_group_id = aws_security_group.alb.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 80
+  to_port           = 80
+  ip_protocol       = "tcp"
+}
+
+resource "aws_vpc_security_group_egress_rule" "alb_all" {
+  security_group_id = aws_security_group.alb.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 0
+  to_port           = 0
+  ip_protocol       = "-1"
 }
 
 resource "aws_security_group" "ecs_service" {
@@ -107,23 +109,25 @@ resource "aws_security_group" "ecs_service" {
   description = "Allow HTTP from ALB to ECS tasks"
   vpc_id      = aws_vpc.this.id
 
-  ingress {
-    from_port       = 80
-    to_port         = 80
-    protocol        = "tcp"
-    security_groups = [aws_security_group.alb.id]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
   tags = merge(var.tags, {
     "Name" = "${local.name_prefix}-ecs-sg"
   })
+}
+
+resource "aws_vpc_security_group_ingress_rule" "ecs_http_from_alb" {
+  security_group_id             = aws_security_group.ecs_service.id
+  referenced_security_group_id  = aws_security_group.alb.id
+  from_port                     = 80
+  to_port                       = 80
+  ip_protocol                   = "tcp"
+}
+
+resource "aws_vpc_security_group_egress_rule" "ecs_all" {
+  security_group_id = aws_security_group.ecs_service.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 0
+  to_port           = 0
+  ip_protocol       = "-1"
 }
 
 # ECS cluster

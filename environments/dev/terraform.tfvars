@@ -14,6 +14,8 @@ ecs_desired_count = 2
 ecs_cpu           = 256
 ecs_memory        = 512
 
+static_site_acm_certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/CHANGE-ME-DEV"
+
 tags = {
   Owner = "platform-team"
 }

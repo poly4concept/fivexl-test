@@ -10,9 +10,11 @@ ecs_site_subdomain    = "app"
 # Example ECR image URI; replace with your own
 ecs_image_url = "123456789012.dkr.ecr.eu-west-1.amazonaws.com/fivexl-site:prod"
 
-ecs_desired_count = 3
+ecs_desired_count = 2
 ecs_cpu           = 512
 ecs_memory        = 1024
+
+static_site_acm_certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/CHANGE-ME-PROD"
 
 tags = {
   Owner = "platform-team"

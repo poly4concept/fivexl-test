@@ -8,6 +8,11 @@ variable "hosted_zone_id" {
   type        = string
 }
 
+variable "acm_certificate_arn" {
+  description = "ACM certificate ARN for the CloudFront distribution (must be in us-east-1 for custom domains)."
+  type        = string
+}
+
 variable "tags" {
   description = "Common tags to apply to all resources."
   type        = map(string)

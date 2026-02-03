@@ -54,6 +54,11 @@ variable "ecs_memory" {
   default     = 1024
 }
 
+variable "static_site_acm_certificate_arn" {
+  description = "ACM certificate ARN for the static site CloudFront distribution (must be in us-east-1)."
+  type        = string
+}
+
 variable "tags" {
   description = "Common tags applied to all resources in prod."
   type        = map(string)
