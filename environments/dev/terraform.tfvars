@@ -10,7 +10,7 @@ ecs_site_subdomain    = "app"
 # Example ECR image URI; replace with your own
 ecs_image_url = "123456789012.dkr.ecr.us-east-1.amazonaws.com/fivexl-site:dev"
 
-ecs_desired_count = 2
+ecs_desired_count = 1
 ecs_cpu           = 256
 ecs_memory        = 512
 
