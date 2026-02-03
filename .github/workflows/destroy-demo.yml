@@ -1,0 +1,34 @@
+name: Destroy demo CloudFront-only site
+
+on:
+  workflow_dispatch:
+
+jobs:
+  destroy-demo:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: environments/demo
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.0
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform destroy
+        run: terraform destroy -auto-approve
+

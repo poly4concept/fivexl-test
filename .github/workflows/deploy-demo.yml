@@ -1,0 +1,50 @@
+name: Deploy demo CloudFront-only site
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-demo:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: environments/demo
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.0
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform apply
+        run: terraform apply -auto-approve
+
+      - name: Capture CloudFront URL
+        id: outputs
+        run: |
+          URL=$(terraform output -raw cloudfront_domain_name)
+          echo "cloudfront_url=https://$URL" >> "$GITHUB_OUTPUT"
+
+      - name: Summary
+        run: |
+          {
+            echo "## Demo CloudFront URL"
+            echo ""
+            echo "CloudFront distribution URL: \`${{ steps.outputs.outputs.cloudfront_url }}\`"
+            echo ""
+            echo "Open in browser: ${{ steps.outputs.outputs.cloudfront_url }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+

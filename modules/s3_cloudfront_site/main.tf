@@ -50,8 +50,6 @@ resource "aws_cloudfront_distribution" "this" {
   comment             = "Static site for ${var.domain_name}"
   default_root_object = "index.html"
 
-  aliases = [var.domain_name]
-
   origin {
     domain_name = aws_s3_bucket.this.bucket_regional_domain_name
     origin_id   = "s3-${aws_s3_bucket.this.id}"
@@ -77,9 +75,7 @@ resource "aws_cloudfront_distribution" "this" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = var.acm_certificate_arn
-    ssl_support_method       = "sni-only"
-    minimum_protocol_version = "TLSv1.2_2021"
+    cloudfront_default_certificate = true
   }
 
   tags = merge(var.tags, {
@@ -111,18 +107,6 @@ resource "aws_s3_bucket_policy" "this" {
   })
 }
 
-resource "aws_route53_record" "this" {
-  zone_id = var.hosted_zone_id
-  name    = var.domain_name
-  type    = "A"
-
-  alias {
-    name                   = aws_cloudfront_distribution.this.domain_name
-    zone_id                = aws_cloudfront_distribution.this.hosted_zone_id
-    evaluate_target_health = false
-  }
-}
-
 output "bucket_id" {
   description = "ID of the S3 bucket used for the static site."
   value       = aws_s3_bucket.this.id
@@ -139,7 +123,7 @@ output "cloudfront_domain_name" {
 }
 
 output "route53_record_fqdn" {
-  description = "Fully qualified domain name of the Route53 record."
-  value       = aws_route53_record.this.fqdn
+  description = "Public entrypoint hostname for the static site (CloudFront default domain in the demo branch)."
+  value       = aws_cloudfront_distribution.this.domain_name
 }
 
