@@ -133,7 +133,7 @@ By changing only `terraform.tfvars` (and the remote backend config), the same mo
 
 #### Prerequisites
 
-- Terraform 1.x installed.
+- Terraform 1.10.x installed.
 - AWS CLI installed and configured with credentials able to:
   - Access the target AWS account.
   - Read/write the S3 state bucket and DynamoDB locking table.
