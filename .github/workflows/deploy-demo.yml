@@ -7,6 +7,10 @@ jobs:
   deploy-demo:
     runs-on: ubuntu-latest
 
+    permissions:
+      id-token: write
+      contents: read
+
     defaults:
       run:
         working-directory: environments/demo
